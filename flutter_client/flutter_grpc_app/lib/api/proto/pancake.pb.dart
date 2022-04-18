@@ -5,12 +5,11 @@
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
-import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'timestamp.pb.dart' as $0;
+import 'timestamp.pb.dart' as $1;
 
 import 'pancake.pbenum.dart';
 
@@ -21,7 +20,7 @@ class Pancake extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'chefName')
     ..e<Pancake_Menu>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'menu', $pb.PbFieldType.OE, defaultOrMaker: Pancake_Menu.UNKNOWN, valueOf: Pancake_Menu.valueOf, enumValues: Pancake_Menu.values)
     ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'technicalScore', $pb.PbFieldType.OF)
-    ..aOM<$0.Timestamp>(15, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createTime', subBuilder: $0.Timestamp.create)
+    ..aOM<$1.Timestamp>(15, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createTime', subBuilder: $1.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -30,7 +29,7 @@ class Pancake extends $pb.GeneratedMessage {
     $core.String? chefName,
     Pancake_Menu? menu,
     $core.double? technicalScore,
-    $0.Timestamp? createTime,
+    $1.Timestamp? createTime,
   }) {
     final _result = create();
     if (chefName != null) {
@@ -96,15 +95,15 @@ class Pancake extends $pb.GeneratedMessage {
   void clearTechnicalScore() => clearField(3);
 
   @$pb.TagNumber(15)
-  $0.Timestamp get createTime => $_getN(3);
+  $1.Timestamp get createTime => $_getN(3);
   @$pb.TagNumber(15)
-  set createTime($0.Timestamp v) { setField(15, v); }
+  set createTime($1.Timestamp v) { setField(15, v); }
   @$pb.TagNumber(15)
   $core.bool hasCreateTime() => $_has(3);
   @$pb.TagNumber(15)
   void clearCreateTime() => clearField(15);
   @$pb.TagNumber(15)
-  $0.Timestamp ensureCreateTime() => $_ensure(3);
+  $1.Timestamp ensureCreateTime() => $_ensure(3);
 }
 
 class Report_BakeCount extends $pb.GeneratedMessage {
@@ -381,19 +380,5 @@ class ReportResponse extends $pb.GeneratedMessage {
   void clearReport() => clearField(1);
   @$pb.TagNumber(1)
   Report ensureReport() => $_ensure(0);
-}
-
-class PancakeBakerServiceApi {
-  $pb.RpcClient _client;
-  PancakeBakerServiceApi(this._client);
-
-  $async.Future<BakeResponse> bake($pb.ClientContext? ctx, BakeRequest request) {
-    var emptyResponse = BakeResponse();
-    return _client.invoke<BakeResponse>(ctx, 'PancakeBakerService', 'Bake', request, emptyResponse);
-  }
-  $async.Future<ReportResponse> report($pb.ClientContext? ctx, ReportRequest request) {
-    var emptyResponse = ReportResponse();
-    return _client.invoke<ReportResponse>(ctx, 'PancakeBakerService', 'Report', request, emptyResponse);
-  }
 }
 

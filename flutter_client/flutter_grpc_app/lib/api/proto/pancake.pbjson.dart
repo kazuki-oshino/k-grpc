@@ -8,8 +8,6 @@
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
 import 'dart:typed_data' as $typed_data;
-import 'timestamp.pbjson.dart' as $0;
-
 @$core.Deprecated('Use pancakeDescriptor instead')
 const Pancake$json = const {
   '1': 'Pancake',
@@ -95,25 +93,3 @@ const ReportResponse$json = const {
 
 /// Descriptor for `ReportResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List reportResponseDescriptor = $convert.base64Decode('Cg5SZXBvcnRSZXNwb25zZRItCgZyZXBvcnQYASABKAsyFS5wYW5jYWtlLm1ha2VyLlJlcG9ydFIGcmVwb3J0');
-const $core.Map<$core.String, $core.dynamic> PancakeBakerServiceBase$json = const {
-  '1': 'PancakeBakerService',
-  '2': const [
-    const {'1': 'Bake', '2': '.pancake.maker.BakeRequest', '3': '.pancake.maker.BakeResponse', '4': const {}},
-    const {'1': 'Report', '2': '.pancake.maker.ReportRequest', '3': '.pancake.maker.ReportResponse', '4': const {}},
-  ],
-};
-
-@$core.Deprecated('Use pancakeBakerServiceDescriptor instead')
-const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> PancakeBakerServiceBase$messageJson = const {
-  '.pancake.maker.BakeRequest': BakeRequest$json,
-  '.pancake.maker.BakeResponse': BakeResponse$json,
-  '.pancake.maker.Pancake': Pancake$json,
-  '.google.protobuf.Timestamp': $0.Timestamp$json,
-  '.pancake.maker.ReportRequest': ReportRequest$json,
-  '.pancake.maker.ReportResponse': ReportResponse$json,
-  '.pancake.maker.Report': Report$json,
-  '.pancake.maker.Report.BakeCount': Report_BakeCount$json,
-};
-
-/// Descriptor for `PancakeBakerService`. Decode as a `google.protobuf.ServiceDescriptorProto`.
-final $typed_data.Uint8List pancakeBakerServiceDescriptor = $convert.base64Decode('ChNQYW5jYWtlQmFrZXJTZXJ2aWNlEkEKBEJha2USGi5wYW5jYWtlLm1ha2VyLkJha2VSZXF1ZXN0GhsucGFuY2FrZS5tYWtlci5CYWtlUmVzcG9uc2UiABJHCgZSZXBvcnQSHC5wYW5jYWtlLm1ha2VyLlJlcG9ydFJlcXVlc3QaHS5wYW5jYWtlLm1ha2VyLlJlcG9ydFJlc3BvbnNlIgA=');

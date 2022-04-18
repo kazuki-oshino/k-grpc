@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_grpc_app/api/api.dart';
+import 'package:grpc/grpc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +31,30 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final _channel = ClientChannel(
+    'localhost',
+    port: 50051,
+    options: ChannelOptions(
+        credentials: const ChannelCredentials.insecure(),
+        codecRegistry: CodecRegistry(codecs: const [
+          GzipCodec(),
+          IdentityCodec(),
+        ])),
+  );
+
+  Future<void> bake() async {
+    final _stub = PancakeBakerServiceClient(_channel);
+    final request = BakeRequest(menu: Pancake_Menu.BANANA_AND_WHIP);
+    final response = await _stub.bake(request);
+    print(response.pancake);
+  }
+
+  Future<void> report() async {
+    final _stub = PancakeBakerServiceClient(_channel);
+    final request = ReportRequest();
+    final response = await _stub.report(request);
+    print(response.report);
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -53,6 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            ElevatedButton(onPressed: bake, child: const Text('bake!')),
+            ElevatedButton(onPressed: report, child: const Text('report!')),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"math/rand"
 	"sync"
 	"time"
@@ -39,6 +40,8 @@ func (h *BakeHandler) Bake(
 	if req.Menu == api.Pancake_UNKNOWN || req.Menu > api.Pancake_SPICY_CURRY {
 		return nil, status.Errorf(codes.InvalidArgument, "パンケーキを選んでください！")
 	}
+
+	fmt.Printf("Bake! : %v\n", req.Menu)
 
 	//パンを焼いて、数を記録します
 	now := time.Now()
