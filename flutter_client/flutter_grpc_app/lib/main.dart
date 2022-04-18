@@ -42,14 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ])),
   );
 
-  Future<void> bake() async {
+  Future<void> _bake() async {
     final _stub = PancakeBakerServiceClient(_channel);
     final request = BakeRequest(menu: Pancake_Menu.BANANA_AND_WHIP);
     final response = await _stub.bake(request);
     print(response.pancake);
   }
 
-  Future<void> report() async {
+  Future<void> _report() async {
     final _stub = PancakeBakerServiceClient(_channel);
     final request = ReportRequest();
     final response = await _stub.report(request);
@@ -79,8 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            ElevatedButton(onPressed: bake, child: const Text('bake!')),
-            ElevatedButton(onPressed: report, child: const Text('report!')),
+            ElevatedButton(onPressed: _bake, child: const Text('bake!')),
+            ElevatedButton(onPressed: _report, child: const Text('report!')),
           ],
         ),
       ),
