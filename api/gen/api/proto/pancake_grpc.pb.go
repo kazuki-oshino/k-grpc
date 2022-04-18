@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type PancakeBakerServiceClient interface {
 	Bake(ctx context.Context, in *BakeRequest, opts ...grpc.CallOption) (*BakeResponse, error)
 	Report(ctx context.Context, in *ReportRequest, opts ...grpc.CallOption) (*ReportResponse, error)
+	NotificationReport(ctx context.Context, in *NotificationRequest, opts ...grpc.CallOption) (PancakeBakerService_NotificationReportClient, error)
 }
 
 type pancakeBakerServiceClient struct {
@@ -48,12 +49,45 @@ func (c *pancakeBakerServiceClient) Report(ctx context.Context, in *ReportReques
 	return out, nil
 }
 
+func (c *pancakeBakerServiceClient) NotificationReport(ctx context.Context, in *NotificationRequest, opts ...grpc.CallOption) (PancakeBakerService_NotificationReportClient, error) {
+	stream, err := c.cc.NewStream(ctx, &PancakeBakerService_ServiceDesc.Streams[0], "/pancake.maker.PancakeBakerService/NotificationReport", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &pancakeBakerServiceNotificationReportClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type PancakeBakerService_NotificationReportClient interface {
+	Recv() (*NotificationResponse, error)
+	grpc.ClientStream
+}
+
+type pancakeBakerServiceNotificationReportClient struct {
+	grpc.ClientStream
+}
+
+func (x *pancakeBakerServiceNotificationReportClient) Recv() (*NotificationResponse, error) {
+	m := new(NotificationResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // PancakeBakerServiceServer is the server API for PancakeBakerService service.
 // All implementations must embed UnimplementedPancakeBakerServiceServer
 // for forward compatibility
 type PancakeBakerServiceServer interface {
 	Bake(context.Context, *BakeRequest) (*BakeResponse, error)
 	Report(context.Context, *ReportRequest) (*ReportResponse, error)
+	NotificationReport(*NotificationRequest, PancakeBakerService_NotificationReportServer) error
 	mustEmbedUnimplementedPancakeBakerServiceServer()
 }
 
@@ -66,6 +100,9 @@ func (UnimplementedPancakeBakerServiceServer) Bake(context.Context, *BakeRequest
 }
 func (UnimplementedPancakeBakerServiceServer) Report(context.Context, *ReportRequest) (*ReportResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Report not implemented")
+}
+func (UnimplementedPancakeBakerServiceServer) NotificationReport(*NotificationRequest, PancakeBakerService_NotificationReportServer) error {
+	return status.Errorf(codes.Unimplemented, "method NotificationReport not implemented")
 }
 func (UnimplementedPancakeBakerServiceServer) mustEmbedUnimplementedPancakeBakerServiceServer() {}
 
@@ -116,6 +153,27 @@ func _PancakeBakerService_Report_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PancakeBakerService_NotificationReport_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(NotificationRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(PancakeBakerServiceServer).NotificationReport(m, &pancakeBakerServiceNotificationReportServer{stream})
+}
+
+type PancakeBakerService_NotificationReportServer interface {
+	Send(*NotificationResponse) error
+	grpc.ServerStream
+}
+
+type pancakeBakerServiceNotificationReportServer struct {
+	grpc.ServerStream
+}
+
+func (x *pancakeBakerServiceNotificationReportServer) Send(m *NotificationResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // PancakeBakerService_ServiceDesc is the grpc.ServiceDesc for PancakeBakerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -132,6 +190,12 @@ var PancakeBakerService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PancakeBakerService_Report_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "NotificationReport",
+			Handler:       _PancakeBakerService_NotificationReport_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "proto/pancake.proto",
 }

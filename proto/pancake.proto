@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 service PancakeBakerService {
     rpc Bake(BakeRequest) returns (BakeResponse) {}
     rpc Report(ReportRequest) returns (ReportResponse) {}
+    rpc NotificationReport(NotificationRequest) returns (stream NotificationResponse) {}
 }
 
 message Pancake {
@@ -47,5 +48,11 @@ message BakeResponse {
 message ReportRequest {}
 
 message ReportResponse {
+    Report report = 1;
+}
+
+message NotificationRequest {}
+
+message NotificationResponse {
     Report report = 1;
 }

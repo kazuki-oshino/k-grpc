@@ -85,3 +85,33 @@ func (h *BakeHandler) Report(ctx context.Context, req *api.ReportRequest) (*api.
 		},
 	}, nil
 }
+
+func (h *BakeHandler) NotificationReport(req *api.NotificationRequest, stream api.PancakeBakerService_NotificationReportServer) error {
+
+	fmt.Println("Request notification report.")
+	for i := 0; i < 5; i++ {
+
+		//sliceを初期化
+		counts := make([]*api.Report_BakeCount, 0)
+
+		//レポートを作ります
+		for k, v := range h.report.data {
+			counts = append(counts, &api.Report_BakeCount{
+				Menu:  k,
+				Count: int32(v),
+			})
+		}
+
+		//レスポンスを作って返します
+		if err := stream.Send(&api.NotificationResponse{
+			Report: &api.Report{
+				BakeCounts: counts,
+			},
+		}); err != nil {
+			return err
+		}
+
+		time.Sleep(2 * time.Second)
+	}
+	return nil
+}

@@ -23,6 +23,12 @@ class PancakeBakerServiceClient extends $grpc.Client {
           '/pancake.maker.PancakeBakerService/Report',
           ($0.ReportRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.ReportResponse.fromBuffer(value));
+  static final _$notificationReport =
+      $grpc.ClientMethod<$0.NotificationRequest, $0.NotificationResponse>(
+          '/pancake.maker.PancakeBakerService/NotificationReport',
+          ($0.NotificationRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.NotificationResponse.fromBuffer(value));
 
   PancakeBakerServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -37,6 +43,14 @@ class PancakeBakerServiceClient extends $grpc.Client {
   $grpc.ResponseFuture<$0.ReportResponse> report($0.ReportRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$report, request, options: options);
+  }
+
+  $grpc.ResponseStream<$0.NotificationResponse> notificationReport(
+      $0.NotificationRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createStreamingCall(
+        _$notificationReport, $async.Stream.fromIterable([request]),
+        options: options);
   }
 }
 
@@ -58,6 +72,15 @@ abstract class PancakeBakerServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.ReportRequest.fromBuffer(value),
         ($0.ReportResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$0.NotificationRequest, $0.NotificationResponse>(
+            'NotificationReport',
+            notificationReport_Pre,
+            false,
+            true,
+            ($core.List<$core.int> value) =>
+                $0.NotificationRequest.fromBuffer(value),
+            ($0.NotificationResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.BakeResponse> bake_Pre(
@@ -70,8 +93,16 @@ abstract class PancakeBakerServiceBase extends $grpc.Service {
     return report(call, await request);
   }
 
+  $async.Stream<$0.NotificationResponse> notificationReport_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.NotificationRequest> request) async* {
+    yield* notificationReport(call, await request);
+  }
+
   $async.Future<$0.BakeResponse> bake(
       $grpc.ServiceCall call, $0.BakeRequest request);
   $async.Future<$0.ReportResponse> report(
       $grpc.ServiceCall call, $0.ReportRequest request);
+  $async.Stream<$0.NotificationResponse> notificationReport(
+      $grpc.ServiceCall call, $0.NotificationRequest request);
 }

@@ -93,3 +93,20 @@ const ReportResponse$json = const {
 
 /// Descriptor for `ReportResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List reportResponseDescriptor = $convert.base64Decode('Cg5SZXBvcnRSZXNwb25zZRItCgZyZXBvcnQYASABKAsyFS5wYW5jYWtlLm1ha2VyLlJlcG9ydFIGcmVwb3J0');
+@$core.Deprecated('Use notificationRequestDescriptor instead')
+const NotificationRequest$json = const {
+  '1': 'NotificationRequest',
+};
+
+/// Descriptor for `NotificationRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List notificationRequestDescriptor = $convert.base64Decode('ChNOb3RpZmljYXRpb25SZXF1ZXN0');
+@$core.Deprecated('Use notificationResponseDescriptor instead')
+const NotificationResponse$json = const {
+  '1': 'NotificationResponse',
+  '2': const [
+    const {'1': 'report', '3': 1, '4': 1, '5': 11, '6': '.pancake.maker.Report', '10': 'report'},
+  ],
+};
+
+/// Descriptor for `NotificationResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List notificationResponseDescriptor = $convert.base64Decode('ChROb3RpZmljYXRpb25SZXNwb25zZRItCgZyZXBvcnQYASABKAsyFS5wYW5jYWtlLm1ha2VyLlJlcG9ydFIGcmVwb3J0');
