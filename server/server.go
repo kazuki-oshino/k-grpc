@@ -6,8 +6,8 @@ import (
 	"log"
 	"net"
 
+	pb "github.com/kazukios/k-grpc/api/gen/api/proto"
 	"google.golang.org/grpc"
-	pb "pancake.maker/gen/api/proto"
 )
 
 var (
