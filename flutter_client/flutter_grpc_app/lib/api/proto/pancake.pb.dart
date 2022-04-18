@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: proto/pancake.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:async' as $async;
@@ -27,10 +27,10 @@ class Pancake extends $pb.GeneratedMessage {
 
   Pancake._() : super();
   factory Pancake({
-    $core.String chefName,
-    Pancake_Menu menu,
-    $core.double technicalScore,
-    $0.Timestamp createTime,
+    $core.String? chefName,
+    Pancake_Menu? menu,
+    $core.double? technicalScore,
+    $0.Timestamp? createTime,
   }) {
     final _result = create();
     if (chefName != null) {
@@ -66,7 +66,7 @@ class Pancake extends $pb.GeneratedMessage {
   static $pb.PbList<Pancake> createRepeated() => $pb.PbList<Pancake>();
   @$core.pragma('dart2js:noInline')
   static Pancake getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Pancake>(create);
-  static Pancake _defaultInstance;
+  static Pancake? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get chefName => $_getSZ(0);
@@ -116,8 +116,8 @@ class Report_BakeCount extends $pb.GeneratedMessage {
 
   Report_BakeCount._() : super();
   factory Report_BakeCount({
-    Pancake_Menu menu,
-    $core.int count,
+    Pancake_Menu? menu,
+    $core.int? count,
   }) {
     final _result = create();
     if (menu != null) {
@@ -147,7 +147,7 @@ class Report_BakeCount extends $pb.GeneratedMessage {
   static $pb.PbList<Report_BakeCount> createRepeated() => $pb.PbList<Report_BakeCount>();
   @$core.pragma('dart2js:noInline')
   static Report_BakeCount getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Report_BakeCount>(create);
-  static Report_BakeCount _defaultInstance;
+  static Report_BakeCount? _defaultInstance;
 
   @$pb.TagNumber(1)
   Pancake_Menu get menu => $_getN(0);
@@ -176,7 +176,7 @@ class Report extends $pb.GeneratedMessage {
 
   Report._() : super();
   factory Report({
-    $core.Iterable<Report_BakeCount> bakeCounts,
+    $core.Iterable<Report_BakeCount>? bakeCounts,
   }) {
     final _result = create();
     if (bakeCounts != null) {
@@ -203,7 +203,7 @@ class Report extends $pb.GeneratedMessage {
   static $pb.PbList<Report> createRepeated() => $pb.PbList<Report>();
   @$core.pragma('dart2js:noInline')
   static Report getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Report>(create);
-  static Report _defaultInstance;
+  static Report? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<Report_BakeCount> get bakeCounts => $_getList(0);
@@ -217,7 +217,7 @@ class BakeRequest extends $pb.GeneratedMessage {
 
   BakeRequest._() : super();
   factory BakeRequest({
-    Pancake_Menu menu,
+    Pancake_Menu? menu,
   }) {
     final _result = create();
     if (menu != null) {
@@ -244,7 +244,7 @@ class BakeRequest extends $pb.GeneratedMessage {
   static $pb.PbList<BakeRequest> createRepeated() => $pb.PbList<BakeRequest>();
   @$core.pragma('dart2js:noInline')
   static BakeRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BakeRequest>(create);
-  static BakeRequest _defaultInstance;
+  static BakeRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   Pancake_Menu get menu => $_getN(0);
@@ -264,7 +264,7 @@ class BakeResponse extends $pb.GeneratedMessage {
 
   BakeResponse._() : super();
   factory BakeResponse({
-    Pancake pancake,
+    Pancake? pancake,
   }) {
     final _result = create();
     if (pancake != null) {
@@ -291,7 +291,7 @@ class BakeResponse extends $pb.GeneratedMessage {
   static $pb.PbList<BakeResponse> createRepeated() => $pb.PbList<BakeResponse>();
   @$core.pragma('dart2js:noInline')
   static BakeResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BakeResponse>(create);
-  static BakeResponse _defaultInstance;
+  static BakeResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   Pancake get pancake => $_getN(0);
@@ -331,7 +331,7 @@ class ReportRequest extends $pb.GeneratedMessage {
   static $pb.PbList<ReportRequest> createRepeated() => $pb.PbList<ReportRequest>();
   @$core.pragma('dart2js:noInline')
   static ReportRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ReportRequest>(create);
-  static ReportRequest _defaultInstance;
+  static ReportRequest? _defaultInstance;
 }
 
 class ReportResponse extends $pb.GeneratedMessage {
@@ -342,7 +342,7 @@ class ReportResponse extends $pb.GeneratedMessage {
 
   ReportResponse._() : super();
   factory ReportResponse({
-    Report report,
+    Report? report,
   }) {
     final _result = create();
     if (report != null) {
@@ -369,7 +369,7 @@ class ReportResponse extends $pb.GeneratedMessage {
   static $pb.PbList<ReportResponse> createRepeated() => $pb.PbList<ReportResponse>();
   @$core.pragma('dart2js:noInline')
   static ReportResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ReportResponse>(create);
-  static ReportResponse _defaultInstance;
+  static ReportResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   Report get report => $_getN(0);
@@ -387,11 +387,11 @@ class PancakeBakerServiceApi {
   $pb.RpcClient _client;
   PancakeBakerServiceApi(this._client);
 
-  $async.Future<BakeResponse> bake($pb.ClientContext ctx, BakeRequest request) {
+  $async.Future<BakeResponse> bake($pb.ClientContext? ctx, BakeRequest request) {
     var emptyResponse = BakeResponse();
     return _client.invoke<BakeResponse>(ctx, 'PancakeBakerService', 'Bake', request, emptyResponse);
   }
-  $async.Future<ReportResponse> report($pb.ClientContext ctx, ReportRequest request) {
+  $async.Future<ReportResponse> report($pb.ClientContext? ctx, ReportRequest request) {
     var emptyResponse = ReportResponse();
     return _client.invoke<ReportResponse>(ctx, 'PancakeBakerService', 'Report', request, emptyResponse);
   }

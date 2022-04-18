@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: proto/pancake.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 // ignore_for_file: UNDEFINED_SHOWN_NAME
@@ -29,7 +29,7 @@ class Pancake_Menu extends $pb.ProtobufEnum {
   ];
 
   static final $core.Map<$core.int, Pancake_Menu> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static Pancake_Menu valueOf($core.int value) => _byValue[value];
+  static Pancake_Menu? valueOf($core.int value) => _byValue[value];
 
   const Pancake_Menu._($core.int v, $core.String n) : super(v, n);
 }

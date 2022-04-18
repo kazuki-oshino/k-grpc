@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: proto/pancake.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
 
 import 'dart:core' as $core;
@@ -95,7 +95,7 @@ const ReportResponse$json = const {
 
 /// Descriptor for `ReportResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List reportResponseDescriptor = $convert.base64Decode('Cg5SZXBvcnRSZXNwb25zZRItCgZyZXBvcnQYASABKAsyFS5wYW5jYWtlLm1ha2VyLlJlcG9ydFIGcmVwb3J0');
-const PancakeBakerServiceBase$json = const {
+const $core.Map<$core.String, $core.dynamic> PancakeBakerServiceBase$json = const {
   '1': 'PancakeBakerService',
   '2': const [
     const {'1': 'Bake', '2': '.pancake.maker.BakeRequest', '3': '.pancake.maker.BakeResponse', '4': const {}},
@@ -104,7 +104,7 @@ const PancakeBakerServiceBase$json = const {
 };
 
 @$core.Deprecated('Use pancakeBakerServiceDescriptor instead')
-const PancakeBakerServiceBase$messageJson = const {
+const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> PancakeBakerServiceBase$messageJson = const {
   '.pancake.maker.BakeRequest': BakeRequest$json,
   '.pancake.maker.BakeResponse': BakeResponse$json,
   '.pancake.maker.Pancake': Pancake$json,
