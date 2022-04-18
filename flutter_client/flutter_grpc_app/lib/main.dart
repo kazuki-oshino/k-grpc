@@ -56,10 +56,28 @@ class _MyHomePageState extends State<MyHomePage> {
     print(response.report);
   }
 
+  Future<void> _notification() async {
+    final _stub = PancakeBakerServiceClient(_channel);
+    final request = NotificationRequest();
+    final response = _stub.notificationReport(request);
+    try {
+      await for (final res in response) {
+        print(res.report);
+        setState(() {
+          _counter++;
+        });
+      }
+
+    } catch(e) {
+      print(e);
+      return;
+    }
+    print("end notification");
+  }
+
+
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+
   }
 
   @override
@@ -81,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(onPressed: _bake, child: const Text('bake!')),
             ElevatedButton(onPressed: _report, child: const Text('report!')),
+            ElevatedButton(onPressed: _notification, child: const Text('Notification!')),
           ],
         ),
       ),
