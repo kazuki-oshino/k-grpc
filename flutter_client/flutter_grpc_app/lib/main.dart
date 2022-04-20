@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   final _channel = ClientChannel(
     'localhost',
-    port: 50051,
+    port: 50058,
     options: ChannelOptions(
         credentials: const ChannelCredentials.insecure(),
         codecRegistry: CodecRegistry(codecs: const [
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late PancakeBakerServiceClient _client;
 
   Future<void> _bake() async {
-    final request = BakeRequest(menu: Pancake_Menu.BANANA_AND_WHIP);
+    final request = BakeRequest(menu: Pancake_Menu.BAKED_MARSHMALLOW);
     final response = await _client.bake(request);
     print(response.pancake);
   }
