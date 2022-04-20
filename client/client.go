@@ -27,19 +27,12 @@ func main() {
 
 	ctx := context.Background()
 
-	r, err := c.Bake(ctx, &pb.BakeRequest{Menu: pb.Pancake_CLASSIC})
+	// r, err := c.Bake(ctx, &pb.BakeRequest{Menu: pb.Pancake_MIX_BERRY})
 
-	if err != nil {
-		log.Fatalf("could not hello: %v", err)
-	}
-	log.Printf("Bake: %s\n", r.GetPancake())
-
-	r, err = c.Bake(ctx, &pb.BakeRequest{Menu: pb.Pancake_BAKED_MARSHMALLOW})
-
-	if err != nil {
-		log.Fatalf("could not hello: %v", err)
-	}
-	log.Printf("Bake: %s\n", r.GetPancake())
+	// if err != nil {
+	// 	log.Fatalf("could not hello: %v", err)
+	// }
+	// log.Printf("Bake: %s\n", r.GetPancake())
 
 	re, err := c.Report(ctx, &pb.ReportRequest{})
 

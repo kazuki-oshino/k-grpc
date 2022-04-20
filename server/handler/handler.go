@@ -2,7 +2,9 @@ package handler
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"log"
 	"math/rand"
 	"sync"
 	"time"
@@ -11,6 +13,8 @@ import (
 	api "github.com/kazukios/k-grpc/api/gen/api/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type BakeHandler struct {
@@ -21,6 +25,12 @@ type BakeHandler struct {
 type report struct {
 	sync.Mutex
 	data map[api.Pancake_Menu]int
+}
+
+type bakery struct {
+	id         int
+	bake_type  int
+	created_at time.Time
 }
 
 func NewBakeHandler() *BakeHandler {
@@ -46,7 +56,23 @@ func (h *BakeHandler) Bake(
 	//パンを焼いて、数を記録します
 	now := time.Now()
 	h.report.Lock()
-	h.report.data[req.Menu] = h.report.data[req.Menu] + 1
+	// Database に登録する
+	db, err := connectDB()
+	defer db.Close()
+	if err != nil {
+		log.Fatalln("db couldn't open.")
+	}
+
+	stmt, err := db.Prepare("INSERT INTO bakery(bake_type, created_at) VALUES(?, ?)")
+	if err != nil {
+		log.Fatalln("insert statement create failed.")
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(req.Menu.Number(), now)
+	if err != nil {
+		log.Fatalln("insert failed.")
+	}
 	h.report.Unlock()
 
 	//レスポンスを作って返します
@@ -65,18 +91,11 @@ func (h *BakeHandler) Bake(
 
 //Report は、焼けたパンの数を報告します。
 func (h *BakeHandler) Report(ctx context.Context, req *api.ReportRequest) (*api.ReportResponse, error) {
-	//sliceを初期化
-	counts := make([]*api.Report_BakeCount, 0)
-
-	//レポートを作ります
-	h.report.Lock()
-	for k, v := range h.report.data {
-		counts = append(counts, &api.Report_BakeCount{
-			Menu:  k,
-			Count: int32(v),
-		})
+	// 焼けたパンの数を取得
+	counts, err := makeReport()
+	if err != nil {
+		return nil, err
 	}
-	h.report.Unlock()
 
 	//レスポンスを作って返します
 	return &api.ReportResponse{
@@ -91,15 +110,10 @@ func (h *BakeHandler) NotificationReport(req *api.NotificationRequest, stream ap
 	fmt.Println("Request notification report.")
 	for i := 0; i < 5; i++ {
 
-		//sliceを初期化
-		counts := make([]*api.Report_BakeCount, 0)
-
-		//レポートを作ります
-		for k, v := range h.report.data {
-			counts = append(counts, &api.Report_BakeCount{
-				Menu:  k,
-				Count: int32(v),
-			})
+		// 焼けたパンの数を取得
+		counts, err := makeReport()
+		if err != nil {
+			return err
 		}
 
 		//レスポンスを作って返します
@@ -114,4 +128,57 @@ func (h *BakeHandler) NotificationReport(req *api.NotificationRequest, stream ap
 		time.Sleep(2 * time.Second)
 	}
 	return nil
+}
+
+func makeReport() ([]*api.Report_BakeCount, error) {
+	//sliceを初期化
+	counts := make([]*api.Report_BakeCount, 0)
+
+	// Database アクセス
+	db, err := connectDB()
+	defer db.Close()
+	if err != nil {
+		log.Fatalln("db couldn't open.")
+	}
+
+	rows, err := db.Query("SELECT * FROM bakery")
+	if err != nil {
+		log.Fatalln("bakery table select failed.")
+	}
+	defer rows.Close()
+
+	tmp := make(map[api.Pancake_Menu]int)
+	for rows.Next() {
+		var r bakery
+		err := rows.Scan(&r.id, &r.bake_type, &r.created_at)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		if c, ok := tmp[api.Pancake_Menu(r.bake_type)]; ok {
+			tmp[api.Pancake_Menu(r.bake_type)] = c + 1
+		} else {
+			tmp[api.Pancake_Menu(r.bake_type)] = 1
+		}
+	}
+
+	//レポートを作ります
+	for k, v := range tmp {
+		counts = append(counts, &api.Report_BakeCount{
+			Menu:  k,
+			Count: int32(v),
+		})
+	}
+	return counts, nil
+}
+
+func connectDB() (*sql.DB, error) {
+	db, err := sql.Open("mysql", "hoge:password@tcp(db:3306)/bakery?parseTime=true")
+	if err != nil {
+		return nil, err
+	}
+	db.SetConnMaxLifetime(time.Second * 5)
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(10)
+	return db, nil
 }
