@@ -41,25 +41,23 @@ class _MyHomePageState extends State<MyHomePage> {
           IdentityCodec(),
         ])),
   );
+  late PancakeBakerServiceClient _client;
 
   Future<void> _bake() async {
-    final _stub = PancakeBakerServiceClient(_channel);
     final request = BakeRequest(menu: Pancake_Menu.BANANA_AND_WHIP);
-    final response = await _stub.bake(request);
+    final response = await _client.bake(request);
     print(response.pancake);
   }
 
   Future<void> _report() async {
-    final _stub = PancakeBakerServiceClient(_channel);
     final request = ReportRequest();
-    final response = await _stub.report(request);
+    final response = await _client.report(request);
     print(response.report);
   }
 
   Future<void> _notification() async {
-    final _stub = PancakeBakerServiceClient(_channel);
     final request = NotificationRequest();
-    final response = _stub.notificationReport(request);
+    final response = _client.notificationReport(request);
     try {
       await for (final res in response) {
         print(res.report);
@@ -67,17 +65,29 @@ class _MyHomePageState extends State<MyHomePage> {
           _counter++;
         });
       }
-
-    } catch(e) {
+    } catch (e) {
       print(e);
       return;
     }
     print("end notification");
   }
 
-
   void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    _client = PancakeBakerServiceClient(_channel);
+  }
+
+  @override
+  void dispose() {
+    _channel.shutdown();
+    super.dispose();
   }
 
   @override
@@ -97,9 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            ElevatedButton(onPressed: _bake, child: const Text('bake!')),
-            ElevatedButton(onPressed: _report, child: const Text('report!')),
-            ElevatedButton(onPressed: _notification, child: const Text('Notification!')),
+            ElevatedButton(onPressed: _bake, child: const Text('Bake!')),
+            ElevatedButton(onPressed: _report, child: const Text('Report!')),
+            ElevatedButton(
+                onPressed: _notification, child: const Text('Notification!')),
           ],
         ),
       ),
