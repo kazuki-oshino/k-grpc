@@ -31,6 +31,8 @@ services:
       MYSQL_USER: hoge
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: bakery
+    ports:
+      - "23306:3306"
 
 volumes:
   k-grpc-db-volume:
